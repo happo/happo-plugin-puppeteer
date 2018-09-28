@@ -7,11 +7,18 @@ module.exports = class PuppeteerDomProvider {
   }
 
   async init() {
-    this.browser = await puppeteer.launch();
-    this.page = await this.browser.newPage();
-    this.page.on('console', msg => console.log(msg.text()));
-    await this.page.setViewport(this.viewport);
-    await this.page.addScriptTag({ path: this.webpackBundle });
+    puppeteer
+      .launch()
+      .then(browser => {
+        this.browser = browser;
+      })
+      .then(() => this.browser.newPage())
+      .then(page => {
+        this.page = page;
+        this.page.on('console', msg => console.log(msg.text()));
+      })
+      .then(() => this.page.setViewport(this.viewport))
+      .then(() => this.page.addScriptTag({ path: this.webpackBundle }));
   }
 
   next() {
@@ -29,4 +36,4 @@ module.exports = class PuppeteerDomProvider {
   close() {
     return this.browser.close();
   }
-}
+};
