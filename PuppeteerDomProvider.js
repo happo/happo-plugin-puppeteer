@@ -6,8 +6,8 @@ module.exports = class PuppeteerDomProvider {
     this.webpackBundle = webpackBundle;
   }
 
-  async init() {
-    puppeteer
+  init() {
+    return puppeteer
       .launch()
       .then(browser => {
         this.browser = browser;
