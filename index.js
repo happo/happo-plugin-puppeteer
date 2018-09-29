@@ -1,7 +1,7 @@
 const PuppeteerDomProvider = require('./PuppeteerDomProvider');
 
-module.exports = function happoPluginPuppeteer() {
+module.exports = function happoPluginPuppeteer({ launchOptions = {} } = {}) {
   return {
-    DomProvider: PuppeteerDomProvider,
+    DomProvider: PuppeteerDomProvider.bind(PuppeteerDomProvider, { launchOptions });
   }
 };

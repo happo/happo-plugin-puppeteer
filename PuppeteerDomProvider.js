@@ -1,14 +1,15 @@
 const puppeteer = require('puppeteer');
 
 module.exports = class PuppeteerDomProvider {
-  constructor({ width, height, webpackBundle }) {
+  constructor({ launchOptions }, { width, height, webpackBundle }) {
     this.viewport = { width, height };
     this.webpackBundle = webpackBundle;
+    this.launchOptions = launchOptions;
   }
 
   init() {
     return puppeteer
-      .launch()
+      .launch(this.launchOptions)
       .then(browser => {
         this.browser = browser;
       })

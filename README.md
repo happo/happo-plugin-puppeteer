@@ -19,7 +19,14 @@ const happoPluginPuppeteer = require('happo-plugin-puppeteer');
 
 module.exports = {
   plugins: [
-    happoPluginPuppeteer(),
+    happoPluginPuppeteer({
+      // ... options go here
+    }),
   ],
 }
 ```
+
+### Options
+
+- `launchOptions` - options passed to
+  [`puppeteer.launch`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). E.g. `{ args: ['--no-sandbox'] }`.
