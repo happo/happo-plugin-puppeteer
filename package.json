@@ -7,6 +7,6 @@
   "author": "Henric Trotzig <henric.trotzig@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "^1.8.0"
+    "puppeteer": "^1.14.0"
   }
 }
