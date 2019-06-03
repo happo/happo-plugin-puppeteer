@@ -7,7 +7,7 @@ module.exports = class PuppeteerDomProvider {
     this.launchOptions = launchOptions;
   }
 
-  init() {
+  init({ targetName } = {}) {
     return puppeteer
       .launch(this.launchOptions)
       .then(browser => {
@@ -19,7 +19,12 @@ module.exports = class PuppeteerDomProvider {
         this.page.on('console', msg => console.log(msg.text()));
       })
       .then(() => this.page.setViewport(this.viewport))
-      .then(() => this.page.addScriptTag({ path: this.webpackBundle }));
+      .then(() => this.page.addScriptTag({ path: this.webpackBundle }))
+      .then(() =>
+        this.page.evaluate(
+          `window.happoProcessor.init({ targetName: "${targetName}" })`,
+        ),
+      );
   }
 
   next() {
