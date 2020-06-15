@@ -16,7 +16,21 @@ module.exports = class PuppeteerDomProvider {
       .then(() => this.browser.newPage())
       .then(page => {
         this.page = page;
-        this.page.on('console', msg => console.log(msg.text()));
+
+        this.page.on('console', async msg => {
+          // serialize my args the way I want
+          const args = await Promise.all(
+            msg.args().map(arg =>
+              arg.executionContext().evaluate(arg => {
+                if (arg instanceof Error) {
+                  return arg.stack;
+                }
+                return arg;
+              }, arg),
+            ),
+          );
+          console.log(...args);
+        });
       })
       .then(() => this.page.setViewport(this.viewport))
       .then(() => this.page.addScriptTag({ path: this.webpackBundle }))
